@@ -7,6 +7,7 @@ from car_make_model_classifier_yolo3 import process_image
 from fastapi.middleware.cors import CORSMiddleware
 
 
+
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
