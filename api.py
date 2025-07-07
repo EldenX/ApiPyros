@@ -4,11 +4,15 @@ import shutil
 import os
 import base64
 from car_make_model_classifier_yolo3 import process_image
-from fastapi.middleware.cors import CORSMiddleware
-
-
 
 app = FastAPI()
+
+UPLOAD_DIR = "uploads"
+OUTPUT_DIR = "outputs"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+from fastapi.middleware.cors import CORSMiddleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["https://pyros.site"],
@@ -17,16 +21,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-
-UPLOAD_DIR = "uploads"
-OUTPUT_DIR = "outputs"
-os.makedirs(UPLOAD_DIR, exist_ok=True)
-os.makedirs(OUTPUT_DIR, exist_ok=True)
+@app.get("/")
+def health_check():
+    return {"status": "ok", "message": "Pyros API is running"}
 
 @app.post("/procesar-imagen/")
 def procesar_imagen(file: UploadFile = File(...)):
-    # Guardar la imagen subida
     input_path = os.path.join(UPLOAD_DIR, file.filename)
     output_path = os.path.join(OUTPUT_DIR, f"processed_{file.filename}")
     with open(input_path, "wb") as buffer:
