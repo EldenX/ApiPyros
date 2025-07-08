@@ -14,7 +14,16 @@ app = FastAPI()
 @app.get("/")
 def health_check():
     return {"status": "ok", "message": "Pyros API is running"} 
-
+    
+@app.get("/debug-files")
+def debug_files():
+    import os
+    files = []
+    for root, dirs, filenames in os.walk("."):
+        for filename in filenames:
+            path = os.path.join(root, filename)
+            files.append({"file": path, "size": os.path.getsize(path)})
+    return files
     
 app.add_middleware(
     CORSMiddleware,
