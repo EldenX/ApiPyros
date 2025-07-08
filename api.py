@@ -8,6 +8,14 @@ from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI()
+
+
+
+@app.get("/")
+def health_check():
+    return {"status": "ok", "message": "Pyros API is running"} 
+
+    
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["https://pyros.site"],
@@ -43,6 +51,3 @@ def procesar_imagen(file: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e)) 
 
-@app.get("/")
-def health_check():
-    return {"status": "ok", "message": "Pyros API is running"} 
