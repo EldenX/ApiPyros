@@ -1,6 +1,14 @@
+<<<<<<< HEAD
 fastapi==0.104.1
 uvicorn==0.24.0
 numpy==1.24.3
 opencv-python-headless==4.8.1.78
 python-multipart==0.0.6
+=======
+fastapi==0.104.1
+uvicorn==0.24.0
+numpy==1.24.3
+opencv-python-headless==4.8.1.78
+python-multipart==0.0.6
+>>>>>>> fb0ea5fde6937f66d5b654a46c946eea92c611d4
 Pillow==10.0.1 
