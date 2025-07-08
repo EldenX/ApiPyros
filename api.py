@@ -33,14 +33,12 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 @app.post("/procesar-imagen/")
 def procesar_imagen(file: UploadFile = File(...)):
-    # Guardar la imagen subida
     input_path = os.path.join(UPLOAD_DIR, file.filename)
     output_path = os.path.join(OUTPUT_DIR, f"processed_{file.filename}")
     with open(input_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
     try:
         result = process_image(input_path, output_path)
-        # Leer la imagen procesada y convertirla a base64
         with open(result['output_image_path'], "rb") as img_file:
             img_bytes = img_file.read()
             img_b64 = base64.b64encode(img_bytes).decode('utf-8')
@@ -49,5 +47,7 @@ def procesar_imagen(file: UploadFile = File(...)):
             "car_info": result['car_info']
         })
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e)) 
+        import traceback
+        traceback.print_exc()  # <--- Esto imprime el error real en los logs
+        raise HTTPException(status_code=500, detail=str(e))
 
